@@ -3,20 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  User,
-  ChevronDown,
-  Menu,
-  Home,
-  Plane,
-  Hotel,
-  Map,
-  FileText,
-  BookOpen,
-  Info,
-  Phone,
-  Check,
-} from "lucide-react";
+import { User, ChevronDown, Menu, X, Check } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,16 +15,9 @@ import {
 
 const Navbar = () => {
   const [selectedCurrency, setSelectedCurrency] = useState("BDT");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const currencies = [
-    { code: "BDT" },
-    { code: "USD" },
-    { code: "EUR" },
-    { code: "GBP" },
-    { code: "INR" },
-    { code: "AED" },
-    { code: "SAR" },
-  ];
+  const currencies = ["BDT", "USD", "EUR", "GBP", "INR", "AED", "SAR"];
 
   const navItems = [
     { name: "HOME", href: "/" },
@@ -48,79 +28,60 @@ const Navbar = () => {
     { name: "UMRAH", href: "/umrah" },
     { name: "BLOGS", href: "/blogs" },
     { name: "ABOUT US", href: "/about" },
-    {
-      name: "CONTACT US",
-      href: "/contact",
-    },
+    { name: "CONTACT US", href: "/contact" },
   ];
 
   return (
     <nav className="bg-white shadow-sm">
-      <div className="">
-        <div className="max-w-6xl mx-auto flex items-center justify-between py-4">
-          {/* Left Side: Logo + Navigation */}
-          <div className="flex items-center space-x-8">
-            {/* Logo */}
-            <Link href="/" className="flex items-center">
-              <Image
-                src="https://res.cloudinary.com/bytestore/image/upload/v1766343029/innovate-removebg-preview_nnfdix.png"
-                alt="Innovate Solution Logo"
-                width={150}
-                height={50}
-                className="h-12 w-auto"
-                priority
-              />
-            </Link>
+      <div className="max-w-6xl mx-auto">
+        {/* Main Header - All Devices */}
+        <div className="flex items-center justify-between py-4">
+          {/* Logo - Always Visible */}
+          <Link href="/" className="flex items-center">
+            <Image
+              src="https://res.cloudinary.com/bytestore/image/upload/v1766343029/innovate-removebg-preview_nnfdix.png"
+              alt="Innovate Solution Logo"
+              width={150}
+              height={50}
+              className="max-h-14 w-auto"
+              priority
+            />
+          </Link>
 
-            {/* Mobile Menu Button */}
-            <button className="md:hidden text-gray-700">
-              <Menu className="w-6 h-6" />
-            </button>
-
-            {/* Desktop Navigation - Right of Logo */}
-            <div className="hidden md:flex items-center space-x-6">
-              {navItems.map((item, index) => (
-                <Link
-                  key={index}
-                  href={item.href}
-                  className="text-gray-700 font-medium hover:text-blue-600 transition-colors flex items-center space-x-1"
-                >
-                  {item.icon && <span>{item.icon}</span>}
-                  <span className="text-sm">{item.name}</span>
-                </Link>
-              ))}
-            </div>
+          {/* Desktop Navigation (768px and above) */}
+          <div className="hidden md:flex items-center space-x-3 lg:space-x-8">
+            {navItems.map((item, index) => (
+              <Link
+                key={index}
+                href={item.href}
+                className="text-gray-700 font-medium hover:text-blue-600 transition-colors text-md"
+              >
+                {item.name}
+              </Link>
+            ))}
           </div>
 
-          {/* Right Side */}
-          <div className="flex items-center space-x-6">
-            {/* Currency Dropdown using ShadCN */}
+          {/* Right Side - Desktop Only (768px and above) */}
+          <div className="hidden md:flex  gap-2 items-center">
+            {/* Currency Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center space-x-1 text-gray-700 font-medium hover:text-blue-600 transition-colors focus:outline-none">
+                <button className="flex items-center space-x-1 text-gray-700 font-medium hover:text-blue-600 transition-colors focus:outline-none text-md lg:text-base">
                   <span>{selectedCurrency}</span>
                   <ChevronDown className="w-4 h-4" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end">
-                <DropdownMenuLabel>Select Currency</DropdownMenuLabel>
+              <DropdownMenuContent className="w-40" align="end">
+                <DropdownMenuLabel> Currency</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {currencies.map((currency) => (
                   <DropdownMenuItem
-                    key={currency.code}
-                    onClick={() => setSelectedCurrency(currency.code)}
+                    key={currency}
+                    onClick={() => setSelectedCurrency(currency)}
                     className="flex items-center justify-between cursor-pointer"
                   >
-                    <div className="flex items-center space-x-3">
-                      <span className="text-lg">{currency.symbol}</span>
-                      <div>
-                        <div className="font-medium">{currency.code}</div>
-                        <div className="text-xs text-gray-500">
-                          {currency.name}
-                        </div>
-                      </div>
-                    </div>
-                    {selectedCurrency === currency.code && (
+                    <span>{currency}</span>
+                    {selectedCurrency === currency && (
                       <Check className="w-4 h-4 text-blue-600" />
                     )}
                   </DropdownMenuItem>
@@ -148,54 +109,28 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Mobile Navigation Menu */}
-        <div className="md:hidden border-t">
-          <div className="grid grid-cols-3 gap-2 p-4">
-            {navItems.map((item, index) => (
-              <Link
-                key={index}
-                href={item.href}
-                className="text-gray-700 text-sm font-medium hover:text-blue-600 p-2 text-center rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                {item.icon && (
-                  <div className="flex justify-center mb-1">{item.icon}</div>
-                )}
-                <span>{item.name}</span>
-              </Link>
-            ))}
-          </div>
-
-          {/* Mobile Bottom Bar */}
-          <div className="border-t px-4 py-3 flex justify-between items-center">
+          {/* Mobile Right Side (Below 768px) */}
+          <div className="flex md:hidden items-center space-x-4">
             {/* Mobile Currency Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center space-x-1 text-gray-700 font-medium bg-gray-100 px-4 py-2 rounded-lg focus:outline-none">
+                <button className="flex items-center space-x-1 text-gray-700 font-medium hover:text-blue-600 transition-colors focus:outline-none text-sm">
                   <span>{selectedCurrency}</span>
                   <ChevronDown className="w-4 h-4" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="start">
+              <DropdownMenuContent className="w-40" align="end">
                 <DropdownMenuLabel>Select Currency</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {currencies.map((currency) => (
                   <DropdownMenuItem
-                    key={currency.code}
-                    onClick={() => setSelectedCurrency(currency.code)}
+                    key={currency}
+                    onClick={() => setSelectedCurrency(currency)}
                     className="flex items-center justify-between cursor-pointer"
                   >
-                    <div className="flex items-center space-x-3">
-                      <span className="text-lg">{currency.symbol}</span>
-                      <div>
-                        <div className="font-medium">{currency.code}</div>
-                        <div className="text-xs text-gray-500">
-                          {currency.name}
-                        </div>
-                      </div>
-                    </div>
-                    {selectedCurrency === currency.code && (
+                    <span>{currency}</span>
+                    {selectedCurrency === currency && (
                       <Check className="w-4 h-4 text-blue-600" />
                     )}
                   </DropdownMenuItem>
@@ -203,15 +138,64 @@ const Navbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Mobile Login Button */}
-            <div className="flex items-center space-x-2 bg-blue-900 text-white px-4 py-2 rounded-md">
-              <User className="w-4 h-4" />
-              <Link href="/login" className="text-sm font-medium">
-                Sign in/Register
-              </Link>
-            </div>
+            {/* Mobile Menu Toggle Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="text-gray-700 p-1"
+            >
+              {mobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Navigation Menu (Below 768px) */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t">
+            <div className="py-3">
+              {/* Navigation Items */}
+              <div className="space-y-0">
+                {navItems.map((item, index) => (
+                  <Link
+                    key={index}
+                    href={item.href}
+                    className="block px-4 py-3 text-gray-700 font-medium hover:text-blue-600 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Mobile Login Button */}
+              <div className="mt-3 px-4">
+                <div className="flex items-center justify-center space-x-2 bg-blue-900 text-white px-4 py-3 rounded-md">
+                  <User className="w-5 h-5" />
+                  <div className="flex items-center font-medium text-sm">
+                    <Link
+                      href="/login"
+                      className="hover:text-blue-200 transition-colors"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Sign in
+                    </Link>
+                    <span className="mx-2">/</span>
+                    <Link
+                      href="/register"
+                      className="hover:text-blue-200 transition-colors"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Register
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );

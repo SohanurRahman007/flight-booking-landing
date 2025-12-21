@@ -1,3 +1,4 @@
+import BannerSection from "@/components/BannerSection ";
 import CallToBookHeader from "@/components/shared/CallToBookHeader";
 import Navbar from "@/components/shared/Navbar";
 
@@ -6,6 +7,7 @@ export default function Home() {
     <div>
       <CallToBookHeader />
       <Navbar />
+      <BannerSection />
     </div>
   );
 }
