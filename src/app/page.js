@@ -1,4 +1,5 @@
 import BannerSection from "@/components/BannerSection ";
+import HolidayPackages from "@/components/HolidayPackages";
 import CallToBookHeader from "@/components/shared/CallToBookHeader";
 import Navbar from "@/components/shared/Navbar";
 
@@ -8,6 +9,7 @@ export default function Home() {
       <CallToBookHeader />
       <Navbar />
       <BannerSection />
+      <HolidayPackages />
     </div>
   );
 }
