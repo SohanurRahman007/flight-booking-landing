@@ -5,6 +5,7 @@ import PopularDestinations from "@/components/PopularDestinations";
 import CallToBookHeader from "@/components/shared/CallToBookHeader";
 import Navbar from "@/components/shared/Navbar";
 import SimplifyingTravel from "@/components/SimplifyingTravel";
+import TopAirlines from "@/components/TopAirlines";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <HowItWorks />
       <PopularDestinations />
       <SimplifyingTravel />
+      <TopAirlines />
     </div>
   );
 }
