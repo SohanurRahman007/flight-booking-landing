@@ -1,6 +1,7 @@
 import BannerSection from "@/components/BannerSection ";
 import HolidayPackages from "@/components/HolidayPackages";
 import HowItWorks from "@/components/HowItWorks";
+import LatestInsights from "@/components/LatestInsights";
 import PopularDestinations from "@/components/PopularDestinations";
 import ServicesGrid from "@/components/ServicesGrid";
 import CallToBookHeader from "@/components/shared/CallToBookHeader";
@@ -22,6 +23,7 @@ export default function Home() {
       <TopAirlines />
       <WhyChooseUs />
       <ServicesGrid />
+      <LatestInsights />
     </div>
   );
 }

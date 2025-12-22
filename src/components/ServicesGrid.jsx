@@ -62,10 +62,10 @@ const ServicesGrid = () => {
   };
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20">
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Headline and Paragraph Section */}
-        <div className="text-center mb-16 max-w-4xl mx-auto">
+        <div className="text-center mb-16 max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Explore Our Comprehensive{" "}
             <span className="text-[#D31B27]">Travel Services</span>
@@ -73,7 +73,7 @@ const ServicesGrid = () => {
           <div className="w-24 h-1 bg-blue-900 mx-auto mb-4 rounded-full"></div>
           <p className="text-gray-600">
             At ITT Demo, we strive to provide a seamless travel experience with
-            a variety of services designed to meet your needs. Whether you're
+            a variety of services designed to meet your needs. Whether you are
             planning a quick getaway or a long vacation, we are here to make
             your journey effortless and enjoyable.
           </p>
