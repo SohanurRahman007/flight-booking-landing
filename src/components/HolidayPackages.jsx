@@ -55,14 +55,14 @@ const HolidayPackages = () => {
           {packages.map((pkg) => (
             <SwiperSlide key={pkg.id}>
               {/* Card Main Container */}
-              <div className="bg-white rounded-sm overflow-hidden group border-none shadow-sm transition-all duration-300">
+              <div className="bg-white rounded-sm overflow-hidden group border-none shadow-sm transition-all duration-300 cursor-pointer">
                 {/* Image & Text Overlay Section */}
                 <div className="relative h-[280px] w-full overflow-hidden">
                   <Image
                     src={pkg.image}
                     alt={pkg.city}
                     fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    className="object-cover  transition-transform duration-700"
                   />
 
                   {/* Gradient Overlay for Text Readability */}
