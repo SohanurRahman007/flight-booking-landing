@@ -38,7 +38,6 @@ const TopAirlines = () => {
     },
   ];
 
-  // Infinite loop-er jonno duplicate
   const duplicatedAirlines = [...airlines, ...airlines];
 
   return (

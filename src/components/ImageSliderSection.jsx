@@ -63,7 +63,6 @@ const ImageSlider = () => {
   return (
     <section className="">
       <div className="max-w-6xl mx-auto px-4">
-        {/* Slider Section Container */}
         <div className="relative group">
           <Swiper
             modules={[Navigation, Autoplay]}
@@ -110,7 +109,6 @@ const ImageSlider = () => {
             ))}
           </Swiper>
 
-          {/* Buttons Aligned to Border and Always Visible */}
           <button className="prev-btn absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center text-blue-900 border border-gray-200 hover:bg-blue-900 hover:text-white transition-all">
             <ChevronLeft size={24} />
           </button>
@@ -120,7 +118,6 @@ const ImageSlider = () => {
           </button>
         </div>
 
-        {/* Flight Routes Section */}
         <div className="mt-12">
           <h2 className="text-2xl font-bold text-blue-900 mb-1">
             Popular Flight Routes

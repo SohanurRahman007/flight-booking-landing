@@ -12,7 +12,6 @@ const SimplifyingTravel = () => {
   return (
     <section className="py-10 bg-[#F9FAFB] mt-14">
       <div className="container mx-auto px-4 max-w-6xl">
-        {/* items-start use kora hoyeche jate text container-ti top thake */}
         <div className="flex flex-col md:flex-row items-start gap-12">
           {/* Left Content Side - 60% Width */}
           <div className="flex-1 md:w-[60%]">

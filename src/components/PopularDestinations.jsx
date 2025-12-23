@@ -96,16 +96,13 @@ const PopularDestinations = () => {
               </p>
             </div>
 
-            {/* Flipping Animation Logic (Mone korun ekhane ekti icon thakle flip hoto) */}
             <motion.div
               variants={{
                 hover: { rotateY: 180 },
               }}
               transition={{ duration: 0.6 }}
               className="absolute top-4 right-4 bg-white/20 p-2 rounded-full opacity-0 group-hover:opacity-100"
-            >
-              {/* Apni ekhane lucide icon dile seta flip hobe */}
-            </motion.div>
+            ></motion.div>
           </motion.div>
         ))}
       </div>

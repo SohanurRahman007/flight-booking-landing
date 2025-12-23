@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Briefcase, Phone, Search, Filter } from "lucide-react";
-import { FlightStore } from "@/store/store";
+import Navbar from "@/components/shared/Navbar";
+import CallToBookHeader from "@/components/shared/CallToBookHeader";
 
 // Airline Logo Component
 const AirlineLogo = ({ src, name }) => {
@@ -63,6 +64,8 @@ const SearchResultPage = () => {
 
   return (
     <div className="bg-[#f0f4f8] min-h-screen font-sans text-[#2d3748]">
+      <CallToBookHeader />
+      <Navbar />
       <div className="bg-white border-b p-3 shadow-sm sticky top-0 z-50">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-3 items-stretch md:items-center">
           <div className="flex-1 grid grid-cols-1 md:grid-cols-3 border rounded-md divide-y md:divide-y-0 md:divide-x bg-white">
