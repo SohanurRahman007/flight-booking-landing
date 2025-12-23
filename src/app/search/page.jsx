@@ -63,9 +63,8 @@ const SearchResultPage = () => {
 
   return (
     <div className="bg-[#f0f4f8] min-h-screen font-sans text-[#2d3748]">
-      {/* 1. SEARCH BAR - Fully Responsive */}
       <div className="bg-white border-b p-3 shadow-sm sticky top-0 z-50">
-        <div className="max-w-[1300px] mx-auto flex flex-col md:flex-row gap-3 items-stretch md:items-center">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-3 items-stretch md:items-center">
           <div className="flex-1 grid grid-cols-1 md:grid-cols-3 border rounded-md divide-y md:divide-y-0 md:divide-x bg-white">
             <div className="p-2 px-4 flex flex-col justify-center">
               <label className="text-[10px] text-gray-400 block font-bold uppercase">
@@ -92,10 +91,9 @@ const SearchResultPage = () => {
         </div>
       </div>
 
-      <div className="max-w-[1300px] mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* 2. SIDEBAR - Mobile: Top, Desktop: Side */}
+      <div className="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
         <aside className="lg:col-span-3 space-y-4 order-1 lg:order-1">
-          <div className="bg-[#00205b] text-white p-3 rounded-md flex items-center justify-center lg:justify-start gap-2">
+          <div className="bg-[#272f3d] text-white p-3 rounded-md flex items-center justify-center lg:justify-start gap-2">
             <Phone size={16} />{" "}
             <span className="text-sm font-bold">020 3818 1875</span>
           </div>
@@ -110,7 +108,6 @@ const SearchResultPage = () => {
               </span>
             </h3>
 
-            {/* Mobile-friendly scroll for filters if needed */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
               {/* Price Range */}
               <div>
@@ -153,7 +150,6 @@ const SearchResultPage = () => {
           </div>
         </aside>
 
-        {/* 3. FLIGHT CARDS - Responsive Layout */}
         <main className="lg:col-span-9 space-y-4 order-2 lg:order-2">
           {/* Tabs */}
           <div className="grid grid-cols-2 bg-white border rounded-lg overflow-hidden">
@@ -177,7 +173,6 @@ const SearchResultPage = () => {
               className="bg-white border rounded-lg shadow-sm overflow-hidden hover:border-blue-300 transition-all"
             >
               <div className="flex flex-col md:flex-row items-stretch">
-                {/* Airline Mobile/Desktop Header */}
                 <div className="p-4 md:p-6 flex md:flex-col items-center gap-3 md:w-[20%] border-b md:border-b-0 md:border-r bg-gray-50/30">
                   <AirlineLogo src={flight.logo} name={flight.airline_name} />
                   <div className="text-center">
@@ -247,7 +242,7 @@ const SearchResultPage = () => {
                 </div>
               </div>
 
-              {/* Responsive Footer */}
+              {/* Footer */}
               <div className="bg-gray-50/50 border-t px-4 md:px-6 py-2 flex justify-between items-center text-[10px] md:text-[11px] font-bold text-gray-400 uppercase tracking-tighter sm:tracking-normal">
                 <div className="flex items-center gap-1 cursor-pointer">
                   Partially Refundable <ChevronDown size={12} />

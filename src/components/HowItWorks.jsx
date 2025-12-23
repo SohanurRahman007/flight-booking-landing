@@ -10,8 +10,7 @@ const HowItWorks = () => {
       title: "Connect with Our Experts",
       description:
         "Reach out via phone or WhatsApp. Let us know your destination, travel dates, and preferences.",
-      icon: <Phone className="w-12 h-12" />, // Icon size ektu barano holo
-      isFeatured: false,
+      icon: <Phone className="w-12 h-12" />,
     },
     {
       id: 2,
@@ -31,11 +30,10 @@ const HowItWorks = () => {
     },
   ];
 
-  // Rotate Animation Logic
   const iconVariants = {
     initial: { rotateY: 0, scale: 1 },
     hover: {
-      rotateY: 180, // Icon-ti horizontal-y ulte jabe
+      rotateY: 180,
       scale: 1.1,
       transition: {
         duration: 0.6,
@@ -47,7 +45,6 @@ const HowItWorks = () => {
   return (
     <section className="mt-14 bg-white">
       <div className="container mx-auto px-4 max-w-6xl">
-        {/* Section Heading matching reference */}
         <h2 className="text-2xl md:text-4xl font-bold text-center mb-8 text-gray-900">
           How It <span className="text-[#D31B27]">Works?</span>
         </h2>
@@ -64,7 +61,6 @@ const HowItWorks = () => {
                   : "bg-white text-gray-900 border border-gray-100"
               }`}
             >
-              {/* Perspective container jate rotation ta 3D mone hoy */}
               <div style={{ perspective: "1000px" }}>
                 <motion.div
                   variants={iconVariants}

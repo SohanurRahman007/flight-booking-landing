@@ -14,9 +14,9 @@ const HolidayPackages = () => {
   const packages = FlightStore.useState((s) => s.holidayPackages);
 
   return (
-    <section className="mt-10  max-w-6xl mx-auto">
+    <section className="  max-w-6xl mx-auto">
       <div className="container mx-auto px-4 md:px-6">
-        {/* Header Section - Design strictly followed */}
+        {/* Header Section */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-5xl font-semibold text-[#D31B27] mb-4 tracking-tighter leading-none">
             ITT Demo UK{" "}
@@ -56,7 +56,6 @@ const HolidayPackages = () => {
             <SwiperSlide key={pkg.id}>
               {/* Card Main Container */}
               <div className="bg-white rounded-sm overflow-hidden group border-none shadow-sm transition-all duration-300 cursor-pointer">
-                {/* Image & Text Overlay Section */}
                 <div className="relative h-[280px] w-full overflow-hidden">
                   <Image
                     src={pkg.image}
@@ -65,7 +64,6 @@ const HolidayPackages = () => {
                     className="object-cover  transition-transform duration-700"
                   />
 
-                  {/* Gradient Overlay for Text Readability */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
                   {/* Overlay Content */}
@@ -101,7 +99,6 @@ const HolidayPackages = () => {
                     </div>
                   </div>
 
-                  {/* Shadcn Button - Exactly as image */}
                   <Button className="bg-[#051C62] hover:bg-[#03154d] text-white font-semibold text-md py-4 px-4 rounded-md uppercase">
                     BOOK NOW
                   </Button>

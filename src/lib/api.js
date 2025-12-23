@@ -24,7 +24,6 @@ export const fetchAirports = async () => {
       headers: HEADERS,
     });
     const result = await res.json();
-    // Jodi data object hoy tobe Object.values use kora hobe
     if (result.data) return Object.values(result.data);
     if (Array.isArray(result)) return result;
     return [];

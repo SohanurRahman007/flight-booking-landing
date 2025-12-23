@@ -24,6 +24,7 @@ import {
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import Image from "next/image";
 
 const BannerSection = () => {
   const router = useRouter();
@@ -96,10 +97,13 @@ const BannerSection = () => {
       <div className="relative h-[500px] md:h-[600px] w-full group overflow-hidden">
         <div className="absolute top-8 left-0 right-0 z-20 px-10 flex justify-between items-center w-full">
           <div className="bg-white/10 backdrop-blur-sm p-2 rounded-lg border border-white/20">
-            <img
+            <Image
               src="https://res.cloudinary.com/bytestore/image/upload/v1766349419/arp-removebg-preview_qbr71o.png"
               alt="ATOL Protected"
+              width={150}
+              height={64}
               className="h-14 md:h-16 w-auto object-contain brightness-0 invert"
+              priority
             />
           </div>
           <div className="flex items-center gap-3">
@@ -178,7 +182,7 @@ const BannerSection = () => {
           </div>
         </div>
 
-        {/* MAIN SEARCH BOX - Width increased and all corners rounded */}
+        {/* MAIN SEARCH BOX  */}
         <div className="w-full max-w-5xl bg-white p-6 md:p-10 rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.15)] border border-gray-100 relative">
           {/* Top Options Row */}
           <div className="flex flex-wrap items-center gap-4 mb-8">

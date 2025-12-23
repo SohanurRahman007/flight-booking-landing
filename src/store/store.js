@@ -2,11 +2,10 @@ import { Store } from "pullstate";
 
 export const FlightStore = new Store({
   // --- Search Inputs ---
-  // Default empty rakhle placeholder bhalo dekhay, kintu apni chaile default code o rakhte paren
   from: "",
   to: "",
 
-  // Standard format (YYYY-MM-DD) input type="date" er jonno dorkar
+  // Standard format (YYYY-MM-DD)
   departureDate: new Date().toISOString().split("T")[0],
 
   // --- Selection States ---
@@ -16,12 +15,11 @@ export const FlightStore = new Store({
   activeTab: "Flight",
 
   // --- API & UI States ---
-  airports: [], // Airport suggestions er jonno
-  airlines: [], // Airlines information er jonno
-  filteredFlights: [], // Search korar por result ekhane thakbe
+  airports: [],
+  airlines: [],
+  filteredFlights: [],
   isLoading: false,
 
-  // --- Holiday Packages (Static Data) ---
   holidayPackages: [
     {
       id: 1,
