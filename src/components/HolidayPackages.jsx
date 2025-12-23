@@ -14,7 +14,7 @@ const HolidayPackages = () => {
   const packages = FlightStore.useState((s) => s.holidayPackages);
 
   return (
-    <section className="mt-60  max-w-6xl mx-auto">
+    <section className="mt-10  max-w-6xl mx-auto">
       <div className="container mx-auto px-4 md:px-6">
         {/* Header Section - Design strictly followed */}
         <div className="text-center mb-12">
