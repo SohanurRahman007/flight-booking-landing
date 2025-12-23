@@ -1,11 +1,10 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade } from "swiper/modules";
 import { FlightStore } from "../store/store";
-import { fetchAirports } from "../lib/api";
+import { fetchAirports } from "../lib/api"; // Apnar fetch function
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
 
 // Swiper styles
 import "swiper/css";
@@ -14,13 +13,43 @@ import "swiper/css/effect-fade";
 const BannerSection = () => {
   const store = FlightStore.useState((s) => s);
 
+  // States for dropdown and search
+  const [activeDropdown, setActiveDropdown] = useState(null); // 'from' or 'to'
+  const [searchTerm, setSearchTerm] = useState("");
+  const dropdownRef = useRef(null);
+
+  // Load dynamic data from API
   useEffect(() => {
     fetchAirports().then((data) =>
       FlightStore.update((s) => {
         s.airports = data;
       })
     );
+
+    // Dropdown close logic (Click outside)
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setActiveDropdown(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // Filter airports based on search query or show all if empty
+  const filteredAirports = store.airports
+    .filter((airport) =>
+      airport.search_contents.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .slice(0, 10);
+
+  const handleSelect = (airport, type) => {
+    FlightStore.update((s) => {
+      s[type] = `${airport.code} - ${airport.city_name}`;
+    });
+    setActiveDropdown(null);
+    setSearchTerm("");
+  };
 
   const tabs = [
     "Flight",
@@ -51,53 +80,25 @@ const BannerSection = () => {
                 backgroundImage: `url('https://res.cloudinary.com/bytestore/image/upload/v1766346726/josh-hild-epgwTpvo04U-unsplash_bwe9qy.jpg')`,
               }}
             >
-              {/* Overlay for text visibility */}
               <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/20 to-transparent" />
-
-              {/* Plane Icon Animation (image_d10c7c.png type) */}
-              <img
-                src="https://res.cloudinary.com/bytestore/image/upload/v1766349419/arp-removebg-preview_qbr71o.png"
-                className="absolute top-10 left-10 w-24 md:w-36 brightness-200 opacity-80 animate-pulse"
-                alt="plane"
-              />
-
               <div className="container mx-auto px-6 relative z-10 text-white">
-                <h1 className="text-5xl md:text-7xl font-black italic tracking-tighter leading-tight drop-shadow-2xl">
-                  FLY TO PAKISTAN
+                <h1 className="text-5xl md:text-7xl font-black italic tracking-tighter leading-tight uppercase">
+                  FLY TO WORLD
                 </h1>
-                <div className="mt-4 flex items-center gap-2 bg-white/20 backdrop-blur-md p-2 rounded-lg w-fit border border-white/30">
-                  <span className="text-xl font-bold">
-                    🏨 Enjoy 2 Nights Stay in Makkah
-                  </span>
-                </div>
-              </div>
-
-              {/* Badges - Right Side (image_d03a86.jpg style) */}
-              <div className="absolute right-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-4">
-                <div className="w-24 h-24 bg-white rounded-full flex flex-col items-center justify-center border-4 border-black text-black">
-                  <span className="text-[10px] font-black italic">ATOL</span>
-                  <span className="text-[8px] font-bold">PROTECTED</span>
-                </div>
-                <div className="w-24 h-24 bg-[#0152CC] rounded-full flex flex-col items-center justify-center border-4 border-white text-white">
-                  <span className="text-[8px] uppercase">Financial</span>
-                  <span className="text-2xl font-black italic leading-none">
-                    100%
-                  </span>
-                  <span className="text-[8px] uppercase tracking-tighter">
-                    Protection
-                  </span>
-                </div>
               </div>
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
 
-      {/* 2. FLOATING SEARCH BOX (image_d11b06.jpg style) */}
-      <div className="absolute bottom-[-100px] left-1/2 -translate-x-1/2 w-full max-w-6xl px-4 z-30">
-        <div className="bg-white rounded-2xl shadow-[0_15px_60px_rgba(0,0,0,0.15)] overflow-visible">
-          {/* Tabs Menu */}
-          <div className="flex items-center gap-4 px-6 pt-4 border-b overflow-x-auto whitespace-nowrap scrollbar-hide">
+      {/* 2. FLOATING SEARCH BOX */}
+      <div
+        className="absolute bottom-[-100px] left-1/2 -translate-x-1/2 w-full max-w-6xl px-4 z-30"
+        ref={dropdownRef}
+      >
+        <div className="bg-white rounded-2xl shadow-2xl border border-gray-100">
+          {/* Tabs */}
+          <div className="flex items-center gap-4 px-6 pt-4 border-b">
             {tabs.map((tab) => (
               <button
                 key={tab}
@@ -106,7 +107,7 @@ const BannerSection = () => {
                     s.activeTab = tab;
                   })
                 }
-                className={`flex items-center gap-2 pb-3 text-sm font-bold transition-all ${
+                className={`pb-3 text-sm font-bold transition-all ${
                   store.activeTab === tab
                     ? "text-blue-900 border-b-4 border-blue-900"
                     : "text-gray-400"
@@ -118,84 +119,157 @@ const BannerSection = () => {
           </div>
 
           <div className="p-6">
-            {/* Trip Selection (One Way, Round Trip) */}
-            <div className="flex flex-wrap gap-4 mb-6">
-              <div className="flex bg-gray-100 p-1 rounded-full text-xs font-bold">
-                {["One Way", "Round Trip", "Multi City"].map((type) => (
-                  <button
-                    key={type}
-                    onClick={() =>
-                      FlightStore.update((s) => {
-                        s.tripType = type;
-                      })
-                    }
-                    className={`px-4 py-1.5 rounded-full transition ${
-                      store.tripType === type
-                        ? "bg-white text-blue-900 shadow-sm"
-                        : "text-gray-500"
-                    }`}
-                  >
-                    {type}
-                  </button>
-                ))}
-              </div>
-              <div className="text-xs font-bold text-gray-600 flex gap-4 items-center">
-                <span className="cursor-pointer">
-                  👤 {store.passengerCount} ▾
-                </span>
-                <span className="cursor-pointer">💺 {store.cabinClass} ▾</span>
-              </div>
-            </div>
-
-            {/* Main Inputs (image_db22f5.png style) */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border rounded-xl overflow-hidden">
-              <div className="p-4 border-r border-gray-100 hover:bg-gray-50 transition">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border rounded-xl relative">
+              {/* --- LEAVING FROM --- */}
+              <div
+                className="p-4 border-r border-gray-100 hover:bg-gray-50 cursor-pointer relative"
+                onClick={() => {
+                  setActiveDropdown("from");
+                  setSearchTerm("");
+                }}
+              >
                 <p className="text-[10px] font-black text-gray-400 uppercase">
                   Leaving From
                 </p>
-                <Input
-                  value={store.from}
-                  onChange={(e) =>
-                    FlightStore.update((s) => {
-                      s.from = e.target.value;
-                    })
-                  }
-                  className="border-none p-0 h-8 text-sm font-bold text-blue-900 focus-visible:ring-0 shadow-none bg-transparent"
-                />
+                <h3 className="text-sm font-bold text-blue-900 truncate">
+                  {store.from || "LHR - London Heathrow Airport"}
+                </h3>
+
+                {activeDropdown === "from" && (
+                  <div
+                    className="absolute left-0 top-0 w-80 bg-white shadow-2xl z-[100] border rounded-lg overflow-hidden animate-in fade-in zoom-in duration-200"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="p-3 border-b bg-gray-50 flex items-center gap-2">
+                      <span className="text-gray-400">🔍</span>
+                      <input
+                        autoFocus
+                        placeholder="Airport code, city, name or country"
+                        className="w-full text-sm bg-transparent outline-none py-1"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                    </div>
+                    <div className="max-h-64 overflow-y-auto">
+                      {filteredAirports.map((airport, idx) => (
+                        <div
+                          key={idx}
+                          onClick={() => handleSelect(airport, "from")}
+                          className="p-3 hover:bg-blue-50 border-b last:border-none flex items-center justify-between transition cursor-pointer"
+                        >
+                          <div className="flex items-start gap-3">
+                            <span className="text-gray-400 mt-1">✈️</span>
+                            <div>
+                              <p className="text-sm font-bold text-gray-800">
+                                {airport.city_name} - {airport.country_name}
+                              </p>
+                              <p className="text-[10px] text-gray-500 uppercase">
+                                {airport.airport_name}
+                              </p>
+                            </div>
+                          </div>
+                          <span className="text-xs font-black text-gray-400 uppercase">
+                            {airport.code}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
-              <div className="p-4 border-r border-gray-100 hover:bg-gray-50 transition relative">
+
+              {/* --- GOING TO --- */}
+              <div
+                className="p-4 border-r border-gray-100 hover:bg-gray-50 cursor-pointer relative"
+                onClick={() => {
+                  setActiveDropdown("to");
+                  setSearchTerm("");
+                }}
+              >
                 <p className="text-[10px] font-black text-gray-400 uppercase">
                   Going To
                 </p>
-                <Input
-                  value={store.to}
-                  onChange={(e) =>
-                    FlightStore.update((s) => {
-                      s.to = e.target.value;
-                    })
-                  }
-                  className="border-none p-0 h-8 text-sm font-bold text-blue-900 focus-visible:ring-0 shadow-none bg-transparent"
-                />
-                <div className="absolute right-[-15px] top-1/2 -translate-y-1/2 bg-blue-900 text-white w-8 h-8 rounded-full flex items-center justify-center z-10 border-2 border-white shadow-md cursor-pointer">
-                  ⇌
-                </div>
+                <h3 className="text-sm font-bold text-blue-900 truncate">
+                  {store.to || "KHI - Karachi Airport"}
+                </h3>
+
+                {activeDropdown === "to" && (
+                  <div
+                    className="absolute left-0 top-0 w-80 bg-white shadow-2xl z-[100] border rounded-lg overflow-hidden animate-in fade-in zoom-in duration-200"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="p-3 border-b bg-gray-50 flex items-center gap-2">
+                      <span className="text-gray-400">🔍</span>
+                      <input
+                        autoFocus
+                        placeholder="Search destination..."
+                        className="w-full text-sm bg-transparent outline-none py-1"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                    </div>
+                    <div className="max-h-64 overflow-y-auto">
+                      {filteredAirports.map((airport, idx) => (
+                        <div
+                          key={idx}
+                          onClick={() => handleSelect(airport, "to")}
+                          className="p-3 hover:bg-blue-50 border-b last:border-none flex items-center justify-between transition cursor-pointer"
+                        >
+                          <div className="flex items-start gap-3">
+                            <span className="text-gray-400 mt-1">✈️</span>
+                            <div>
+                              <p className="text-sm font-bold text-gray-800">
+                                {airport.city_name} - {airport.country_name}
+                              </p>
+                              <p className="text-[10px] text-gray-500 uppercase">
+                                {airport.airport_name}
+                              </p>
+                            </div>
+                          </div>
+                          <span className="text-xs font-black text-gray-400 uppercase">
+                            {airport.code}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
+
+              {/* --- DEPARTURE DATE --- */}
               <div className="p-4 hover:bg-gray-50 transition">
                 <p className="text-[10px] font-black text-gray-400 uppercase">
                   Departure Date
                 </p>
-                <Input
-                  type="text"
-                  value={store.departureDate}
-                  readOnly
-                  className="border-none p-0 h-8 text-sm font-bold text-blue-900 focus-visible:ring-0 shadow-none bg-transparent"
+                <input
+                  type="date"
+                  className="w-full text-sm font-bold text-blue-900 outline-none bg-transparent cursor-pointer"
+                  onChange={(e) =>
+                    FlightStore.update((s) => {
+                      s.departureDate = e.target.value;
+                    })
+                  }
                 />
               </div>
             </div>
 
-            {/* Search Button */}
+            {/* SEARCH BUTTON */}
             <div className="absolute bottom-[-25px] left-1/2 -translate-x-1/2">
-              <Button className="bg-blue-900 hover:bg-blue-800 text-white px-12 py-6 rounded-lg text-lg font-black uppercase italic tracking-widest shadow-xl transition-all active:scale-95">
+              <Button
+                onClick={() => {
+                  if (!store.from || !store.to || !store.departureDate) {
+                    alert("Please select Departure, Destination and Date");
+                    return;
+                  }
+                  // Airport code extract kora (Ex: "LHR - London" theke "LHR")
+                  const fromCode = store.from.split(" - ")[0];
+                  const toCode = store.to.split(" - ")[0];
+
+                  // Search Result page-e redirect kora query string shoho
+                  window.location.href = `/search?from=${fromCode}&to=${toCode}&date=${store.departureDate}`;
+                }}
+                className="bg-blue-900 hover:bg-blue-800 text-white px-12 py-6 rounded-lg text-lg font-black uppercase italic tracking-widest shadow-xl transition-all active:scale-95"
+              >
                 Search
               </Button>
             </div>
@@ -207,4 +281,3 @@ const BannerSection = () => {
 };
 
 export default BannerSection;
-0;
